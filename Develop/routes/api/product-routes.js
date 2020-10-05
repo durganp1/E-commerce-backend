@@ -12,7 +12,7 @@ Product.findAll({
   include: [
     {
       model: Category,
-      attributes: ['category_id']
+      attributes: ['id']
     },
     {
       model: Tag,
@@ -37,17 +37,17 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id
     },
-    attributes: ['id', 'product_name', 'price', 'stock'],
     include: [
-    {
-      model: Category,
-      attributes: ['id', 'catagory_name']
-    },
-    {
-      model: Tag,
-      attributes: ['tag_name']
-    }
-  ]
+      {
+        model: Category,
+        attributes: ['id']
+      },
+      {
+        model: Tag,
+        attributes: ['tag_name'],
+        as: 'product_tags'
+      }
+    ]
   })
   .then(dbProductData => {
     if (!dbProductData) {
