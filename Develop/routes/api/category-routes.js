@@ -2,21 +2,14 @@ const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
-const sequelize = require('../../config/connection');
+
 
 router.get('/', (req, res) => {
   // find all categories
   Category.findAll({
-    attributes: ['catagory_name'],
-    // be sure to include its associated Products
-    // include: [
-    //   {
-    //     model: Product,
-    //     attributes: ['id', 'product_name', 'price', 'stock']
-    //   }
-    // ]
+   include: [Product],
   })
-  .then(dbCatagoryData => res.json(dbCatagoryData))
+  .then(dbCategoryData => res.json(dbCategoryData))
   .catch(err => {
     console.log(err);
     res.status(500).json(err);
@@ -37,12 +30,12 @@ router.get('/:id', (req, res) => {
       }
     ]
   })
-  .then(dbCatagoryData => {
-    if (!dbCatagoryData) {
+  .then(dbCategoryData => {
+    if (!dbCategoryData) {
       res.status(404).json({ message: 'No catagory with that id.'});
       return;
     }
-    res.json(dbCatagoryData);
+    res.json(dbCategoryData);
   })
   .catch(err => {
     console.log(err);
@@ -52,10 +45,8 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new category
-  Category.create({
-    name: req.body.name
-  })
-  .then(dbCatagoryData => res.json(dbCatagoryData))
+  Category.create({body})
+  .then(dbCategoryData => res.json(dbCategoryData))
   .catch(err => {
     console.log(err);
     res.status(500).json(err);
@@ -69,12 +60,12 @@ router.put('/:id', (req, res) => {
       id: req.params.id
     }
   })
-  .then(dbCatagoryData => {
+  .then(dbCategoryData => {
     if (!dbCatagoryData) {
-      res.status(404).json({ message: 'No catagory with this id'});
+      res.status(404).json({ message: 'No category with this id'});
       return;
     }
-    res.json(dbCatagoryData);
+    res.json(dbCategoryData);
   })
   .catch(err => {
     console.log(err);
@@ -89,12 +80,12 @@ router.delete('/:id', (req, res) => {
       id: req.params.id
     }
   })
-  .then(dbCatagoryData => {
-    if (!dbCatagoryData) {
-      res.status(404).json({ message: 'No catagory with that id'});
+  .then(dbCategoryData => {
+    if (!dbCategoryData) {
+      res.status(404).json({ message: 'No category with that id'});
       return;
     }
-    res.json(dbCatagoryData);
+    res.json(dbCategoryData);
   })
   .catch(err => {
     console.log(err);
