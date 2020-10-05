@@ -17,7 +17,7 @@ Product.findAll({
     {
       model: Tag,
       attributes: ['tag_name'],
-      through: ProductTag,
+      //through: ProductTag,
       as: 'product_tags'
     }
   ]
