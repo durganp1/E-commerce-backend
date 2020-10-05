@@ -8,11 +8,17 @@ router.get('/', (req, res) => {
   // find all products
 // be sure to include its associated Category and Tag data
 Product.findAll({
+  attributes: ['id', 'product_name', 'price', 'stock'],
   include: [
-    Category,
+    {
+      model: Category,
+      attributes: ['category_id']
+    },
     {
       model: Tag,
+      attributes: ['tag_name'],
       through: ProductTag,
+      as: 'product_tags'
     }
   ]
   })
