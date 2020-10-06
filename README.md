@@ -1,4 +1,3 @@
-
 # E-commerce Back End Starter Code
 ![Github license](https://img.shields.io/badge/license-MIT-blue.svg)
 
